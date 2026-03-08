@@ -13,7 +13,8 @@ def get_connection():
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
         port=os.getenv("DB_PORT", "5432"),
-        sslmode="require"
+        sslmode="require",
+        connect_timeout=10
     )
     return conn
 
