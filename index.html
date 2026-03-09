@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>isiZulu Term Lookup | UKZN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { ukzn: { red: '#CC0000', dark: '#990000' } },
+          fontFamily: {
+            serif: ['Merriweather', 'Georgia', 'serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .fade-in { animation: fadeIn 0.2s ease forwards; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)} }
+    .shimmer { background: linear-gradient(90deg,#f0f0f0 25%,#fafafa 50%,#f0f0f0 75%); background-size:200% 100%; animation: shimmer 1.4s infinite; }
+    @keyframes shimmer { 0%{background-position:200% 0}100%{background-position:-200% 0} }
+    .search-bar:focus-within { border-color:#CC0000!important; }
+    input:focus,textarea:focus { outline:none; }
+    #mobileMenu { transition:max-height 0.3s ease,opacity 0.3s ease; max-height:0; opacity:0; overflow:hidden; }
+    #mobileMenu.open { max-height:400px; opacity:1; }
+    .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .disc-pill { transition: all 0.15s; }
+    .disc-pill.active { background:#CC0000; color:white; border-color:#CC0000; }
+    .alpha-btn.active { background:#CC0000; color:white; }
+  </style>
+</head>
+<body class="font-sans bg-white text-gray-900 antialiased">
+
+  <!-- ══ NAV ══ -->
+  <header class="bg-ukzn-red border-b-4 border-ukzn-dark sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="font-serif font-bold text-white text-lg tracking-wide">UKZN</span>
+        <span class="hidden sm:block w-px h-5 bg-red-300"></span>
+        <span class="hidden sm:block text-red-100 text-xs font-light tracking-widest uppercase">isiZulu Term Lookup</span>
+      </div>
+      <nav class="hidden sm:flex items-center gap-1">
+        <a href="#search" class="text-red-100 hover:text-white text-xs font-semibold px-3 py-1.5 rounded hover:bg-red-700 transition-colors">Search</a>
+        <a href="#browse" class="text-red-100 hover:text-white text-xs font-semibold px-3 py-1.5 rounded hover:bg-red-700 transition-colors">Browse</a>
+        <a href="#suggest" class="text-red-100 hover:text-white text-xs font-semibold px-3 py-1.5 rounded hover:bg-red-700 transition-colors">Suggest</a>
+      </nav>
+      <button id="hamburgerBtn" onclick="toggleMenu()" class="sm:hidden flex flex-col justify-center items-center gap-1.5 w-9 h-9 rounded hover:bg-red-700 transition-colors">
+        <span id="bar1" class="block w-5 h-0.5 bg-white transition-all duration-300 origin-center"></span>
+        <span id="bar2" class="block w-5 h-0.5 bg-white transition-all duration-300"></span>
+        <span id="bar3" class="block w-5 h-0.5 bg-white transition-all duration-300 origin-center"></span>
+      </button>
+    </div>
+    <div id="mobileMenu" class="sm:hidden bg-ukzn-dark border-t border-red-800">
+      <div class="px-4 py-2 flex flex-col">
+        <a href="#search"  onclick="closeMenu()" class="text-red-100 hover:text-white text-sm font-semibold py-3 border-b border-red-800 hover:pl-2 transition-all">🔍 Search</a>
+        <a href="#browse"  onclick="closeMenu()" class="text-red-100 hover:text-white text-sm font-semibold py-3 border-b border-red-800 hover:pl-2 transition-all">📖 Browse All Terms</a>
+        <a href="#suggest" onclick="closeMenu()" class="text-red-100 hover:text-white text-sm font-semibold py-3 hover:pl-2 transition-all">✍️ Suggest a Term</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ HERO ══ -->
+  <section id="search" class="bg-ukzn-red py-10 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <p class="text-red-200 text-xs font-semibold tracking-widest uppercase mb-2">University of KwaZulu-Natal</p>
+      <h1 class="font-serif text-3xl sm:text-4xl text-white font-bold mb-2">isiZulu Term Lookup</h1>
+      <p class="text-red-200 text-sm mb-7">Search academic terms in English and get isiZulu translations</p>
+
+      <div class="search-bar flex border-2 border-red-300 bg-white shadow-lg transition-colors">
+        <input id="searchInput" type="text"
+          placeholder="Search a term e.g. ubuntu, democracy…"
+          class="flex-1 px-4 py-3.5 text-base text-gray-800 bg-transparent border-none font-sans placeholder-gray-400"
+          autocomplete="off"/>
+        <button id="searchBtn" onclick="searchTerm()"
+          class="bg-gray-900 hover:bg-black text-white font-bold text-sm px-6 sm:px-8 tracking-wide transition-colors flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+          </svg>
+          <span class="hidden sm:inline">SEARCH</span>
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="flex items-center justify-center gap-8 mt-6">
+        <div class="text-center">
+          <div class="text-white font-bold text-xl" id="statTerms">…</div>
+          <div class="text-red-200 text-xs uppercase tracking-wider">Terms</div>
+        </div>
+        <div class="w-px h-8 bg-red-400"></div>
+        <div class="text-center">
+          <div class="text-white font-bold text-xl" id="statDisciplines">…</div>
+          <div class="text-red-200 text-xs uppercase tracking-wider">Disciplines</div>
+        </div>
+        <div class="w-px h-8 bg-red-400"></div>
+        <div class="text-center">
+          <div class="text-white font-bold text-xl">Free</div>
+          <div class="text-red-200 text-xs uppercase tracking-wider">Access</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search result -->
+  <div id="resultBox" class="hidden bg-gray-50 border-b border-gray-200 px-4 py-6">
+    <div class="max-w-2xl mx-auto" id="resultInner"></div>
+  </div>
+
+  <!-- ══ BODY ══ -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- LEFT -->
+      <div class="flex-1 min-w-0" id="browse">
+
+        <!-- Section title -->
+        <div class="flex items-center justify-between mb-4 pb-2 border-b-2 border-ukzn-red">
+          <h2 class="font-serif text-lg font-bold text-gray-900">Browse All Terms</h2>
+          <span id="termCount" class="text-xs text-gray-400 font-medium"></span>
+        </div>
+
+        <!-- Discipline filter pills -->
+        <div class="mb-4">
+          <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Filter by Discipline</div>
+          <div id="disciplinePills" class="flex flex-wrap gap-2">
+            <div class="shimmer h-6 w-20 rounded-full"></div>
+            <div class="shimmer h-6 w-24 rounded-full"></div>
+            <div class="shimmer h-6 w-16 rounded-full"></div>
+          </div>
+        </div>
+
+        <!-- Alphabetical filter -->
+        <div class="mb-5">
+          <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Filter by Letter</div>
+          <div class="flex flex-wrap gap-1" id="alphaFilter">
+            <!-- generated by JS -->
+          </div>
+        </div>
+
+        <!-- Column labels desktop -->
+        <div class="hidden sm:grid grid-cols-3 gap-4 px-3 pb-2 border-b border-gray-200">
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-400">English</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-400">isiZulu</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Discipline</span>
+        </div>
+
+        <!-- Terms list -->
+        <div id="termsList">
+          <div class="py-4 px-3 space-y-2 border-b border-gray-100">
+            <div class="shimmer h-4 w-1/3 rounded"></div><div class="shimmer h-3 w-2/3 rounded"></div>
+          </div>
+          <div class="py-4 px-3 space-y-2 border-b border-gray-100">
+            <div class="shimmer h-4 w-1/4 rounded"></div><div class="shimmer h-3 w-3/4 rounded"></div>
+          </div>
+          <div class="py-4 px-3 space-y-2 border-b border-gray-100">
+            <div class="shimmer h-4 w-2/5 rounded"></div><div class="shimmer h-3 w-1/2 rounded"></div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 hidden">
+          <button id="prevBtn" onclick="changePage(-1)"
+            class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-ukzn-red disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            ← Previous
+          </button>
+          <span id="pageInfo" class="text-xs text-gray-400"></span>
+          <button id="nextBtn" onclick="changePage(1)"
+            class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-ukzn-red disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+            Next →
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="w-full lg:w-72 flex-shrink-0 space-y-6">
+
+        <!-- Suggest -->
+        <div id="suggest" class="border border-gray-200 overflow-hidden">
+          <div class="bg-ukzn-red px-4 py-3">
+            <h3 class="font-serif font-bold text-white text-sm tracking-wide">Suggest a Term</h3>
+            <p class="text-red-200 text-xs mt-0.5">Help grow this isiZulu resource</p>
+          </div>
+          <div class="p-4 bg-gray-50 space-y-3">
+            <input id="suggestEnglish" class="w-full border border-gray-300 focus:border-ukzn-red px-3 py-2 text-sm font-sans bg-white transition-colors" placeholder="English term *"/>
+            <input id="suggestZulu" class="w-full border border-gray-300 focus:border-ukzn-red px-3 py-2 text-sm font-sans bg-white transition-colors" placeholder="isiZulu word (optional)"/>
+            <textarea id="suggestDefinition" rows="3" class="w-full border border-gray-300 focus:border-ukzn-red px-3 py-2 text-sm font-sans bg-white resize-none transition-colors" placeholder="Definition or context…"></textarea>
+            <button id="suggestBtn" onclick="submitSuggestion()" class="w-full bg-ukzn-red hover:bg-ukzn-dark text-white font-bold text-xs tracking-widest uppercase py-2.5 transition-colors">
+              Submit Suggestion
+            </button>
+            <div id="suggestMsg" class="hidden text-xs px-3 py-2"></div>
+          </div>
+        </div>
+
+        <!-- About -->
+        <div class="border border-gray-200 overflow-hidden">
+          <div class="bg-gray-800 px-4 py-3">
+            <h3 class="font-serif font-bold text-white text-sm tracking-wide">About</h3>
+          </div>
+          <div class="p-4 bg-gray-50 text-sm text-gray-600 leading-relaxed space-y-3">
+            <p>This resource provides <strong class="text-gray-800">isiZulu translations</strong> for academic terms used at UKZN across 24 disciplines.</p>
+            <p>Built to support students and staff in accessing knowledge in their mother tongue.</p>
+            <p class="text-xs text-gray-400 pt-2 border-t border-gray-200">Developed by <strong class="text-gray-600">Njabulo Hadebe</strong> · UKZN NLP Research Unit</p>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 py-5 px-4 mt-4">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500">
+      <span>© University of KwaZulu-Natal · isiZulu Term Lookup System</span>
+      <span>Built by <strong class="text-ukzn-red">Njabulo Hadebe</strong></span>
+    </div>
+  </footer>
+
+  <script>
+    const API = 'https://isizulu-term-lookup.onrender.com';
+
+    // State
+    let currentPage = 1;
+    let currentDiscipline = null;
+    let currentLetter = null;
+    let totalPages = 1;
+
+    // ── HAMBURGER ──────────────────────────────────────────
+    let menuOpen = false;
+    function toggleMenu() {
+      menuOpen = !menuOpen;
+      const b1=document.getElementById('bar1'),b2=document.getElementById('bar2'),b3=document.getElementById('bar3');
+      if (menuOpen) {
+        document.getElementById('mobileMenu').classList.add('open');
+        b1.style.transform='translateY(8px) rotate(45deg)'; b2.style.opacity='0'; b3.style.transform='translateY(-8px) rotate(-45deg)';
+      } else closeMenu();
+    }
+    function closeMenu() {
+      menuOpen=false;
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.getElementById('bar1').style.transform=''; document.getElementById('bar2').style.opacity='1'; document.getElementById('bar3').style.transform='';
+    }
+
+    // ── SEARCH ─────────────────────────────────────────────
+    document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchTerm(); });
+
+    async function searchTerm() {
+      const keyword = document.getElementById('searchInput').value.trim();
+      if (!keyword) return;
+
+      const btn = document.getElementById('searchBtn');
+      btn.innerHTML = `<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>`;
+      btn.disabled = true;
+
+      const box = document.getElementById('resultBox');
+      const inner = document.getElementById('resultInner');
+      box.classList.remove('hidden');
+
+      try {
+        const res = await fetch(`${API}/search/${encodeURIComponent(keyword)}`);
+        const data = await res.json();
+
+        if (data.found) {
+          inner.innerHTML = `
+            <div class="fade-in border border-gray-200 border-l-4 border-l-ukzn-red bg-white p-5">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold uppercase tracking-widest text-ukzn-red">isiZulu term</span>
+                ${data.discipline ? `<span class="text-xs bg-red-50 text-ukzn-red border border-red-200 px-2 py-0.5">${data.discipline}</span>` : ''}
+              </div>
+              <div class="font-serif text-3xl font-bold text-gray-900 mb-1">${data.isiZuluWord}</div>
+              <div class="text-sm text-gray-400 mb-3">English: <span class="text-gray-600">${data.englishWord}</span></div>
+              ${data.definition ? `<div class="text-sm text-gray-700 leading-relaxed border-t border-gray-100 pt-3">${data.definition}</div>` : '<div class="text-xs text-gray-400 border-t border-gray-100 pt-3 italic">Definition coming soon</div>'}
+            </div>`;
+        } else {
+          inner.innerHTML = `
+            <div class="fade-in bg-red-50 border border-red-200 px-4 py-3 text-sm text-gray-600">
+              No entry found for <strong>"${keyword}"</strong>.
+              <a href="#suggest" onclick="prefillSuggest('${keyword}')" class="text-ukzn-red font-semibold ml-1 hover:underline">Suggest this term →</a>
+            </div>`;
+        }
+      } catch {
+        inner.innerHTML = `<div class="fade-in bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">Connection error. Please try again.</div>`;
+      }
+
+      btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/></svg><span class="hidden sm:inline ml-2">SEARCH</span>`;
+      btn.disabled = false;
+    }
+
+    // ── DISCIPLINES ─────────────────────────────────────────
+    async function loadDisciplines() {
+      try {
+        const res = await fetch(`${API}/disciplines`);
+        const data = await res.json();
+
+        // Update stats
+        document.getElementById('statDisciplines').textContent = data.disciplines.length;
+
+        const container = document.getElementById('disciplinePills');
+        container.innerHTML = `
+          <button class="disc-pill active text-xs font-semibold px-3 py-1 border border-ukzn-red rounded-full" onclick="filterDiscipline(null, this)">
+            All
+          </button>` +
+          data.disciplines.map(d => `
+            <button class="disc-pill text-xs font-semibold px-3 py-1 border border-gray-300 text-gray-600 rounded-full hover:border-ukzn-red hover:text-ukzn-red"
+              onclick="filterDiscipline('${d.name}', this)">
+              ${d.name} <span class="text-gray-400">(${d.count})</span>
+            </button>
+          `).join('');
+      } catch {
+        document.getElementById('disciplinePills').innerHTML = '<span class="text-xs text-gray-400">Could not load disciplines</span>';
+      }
+    }
+
+    function filterDiscipline(discipline, btn) {
+      currentDiscipline = discipline;
+      currentLetter = null;
+      currentPage = 1;
+      // Update active pill
+      document.querySelectorAll('.disc-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      // Reset alpha
+      document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+      loadTerms();
+    }
+
+    // ── ALPHABET ────────────────────────────────────────────
+    function buildAlpha() {
+      const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const container = document.getElementById('alphaFilter');
+      container.innerHTML = `
+        <button class="alpha-btn text-xs font-bold px-2 py-1 border border-gray-200 text-gray-500 hover:border-ukzn-red hover:text-ukzn-red transition-colors"
+          onclick="filterLetter(null, this)">All</button>` +
+        alpha.map(l => `
+          <button class="alpha-btn text-xs font-bold px-2 py-1 border border-gray-200 text-gray-500 hover:border-ukzn-red hover:text-ukzn-red transition-colors"
+            onclick="filterLetter('${l}', this)">${l}</button>
+        `).join('');
+    }
+
+    function filterLetter(letter, btn) {
+      currentLetter = letter;
+      currentPage = 1;
+      document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadTerms();
+    }
+
+    // ── LOAD TERMS ──────────────────────────────────────────
+    async function loadTerms() {
+      const list = document.getElementById('termsList');
+      list.innerHTML = `
+        <div class="py-4 px-3 space-y-2 border-b border-gray-100"><div class="shimmer h-4 w-1/3 rounded"></div><div class="shimmer h-3 w-2/3 rounded"></div></div>
+        <div class="py-4 px-3 space-y-2 border-b border-gray-100"><div class="shimmer h-4 w-1/4 rounded"></div><div class="shimmer h-3 w-3/4 rounded"></div></div>
+        <div class="py-4 px-3 space-y-2 border-b border-gray-100"><div class="shimmer h-4 w-2/5 rounded"></div><div class="shimmer h-3 w-1/2 rounded"></div></div>`;
+
+      try {
+        let url = `${API}/terms?page=${currentPage}&limit=20`;
+        if (currentDiscipline) url += `&discipline=${encodeURIComponent(currentDiscipline)}`;
+        if (currentLetter) url += `&letter=${currentLetter}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+
+        totalPages = data.pages || 1;
+
+        // Update stats
+        document.getElementById('statTerms').textContent = data.total?.toLocaleString() || '8,222';
+        document.getElementById('termCount').textContent = `${data.total?.toLocaleString()} terms · Page ${data.page} of ${data.pages}`;
+
+        // Render terms
+        list.innerHTML = data.terms.length === 0
+          ? `<p class="text-gray-400 text-sm py-6 text-center">No terms found.</p>`
+          : data.terms.map(t => `
+            <div onclick="quickSearch('${t.english_word.replace(/'/g, "\\'")}')"
+              class="group cursor-pointer border-b border-gray-100 hover:bg-red-50 transition-colors fade-in">
+              <div class="sm:hidden px-3 py-3">
+                <div class="flex items-baseline gap-2 mb-0.5">
+                  <span class="text-sm font-bold text-ukzn-red">${t.english_word}</span>
+                  <span class="text-xs text-gray-300">→</span>
+                  <span class="font-serif text-sm font-bold text-gray-900">${t.isizulu_word}</span>
+                </div>
+                <div class="text-xs text-gray-400">${t.discipline || ''}</div>
+              </div>
+              <div class="hidden sm:grid grid-cols-3 gap-4 px-3 py-3 items-center">
+                <span class="text-sm font-semibold text-ukzn-red group-hover:underline">${t.english_word}</span>
+                <span class="font-serif text-sm font-bold text-gray-900">${t.isizulu_word}</span>
+                <span class="text-xs text-gray-400">${t.discipline || ''}</span>
+              </div>
+            </div>`).join('');
+
+        // Pagination
+        const pg = document.getElementById('pagination');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageInfo = document.getElementById('pageInfo');
+
+        pg.classList.remove('hidden');
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages;
+        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
+      } catch {
+        list.innerHTML = `<p class="text-gray-400 text-sm py-6 text-center">Could not load terms. Please refresh.</p>`;
+      }
+    }
+
+    function changePage(dir) {
+      const newPage = currentPage + dir;
+      if (newPage < 1 || newPage > totalPages) return;
+      currentPage = newPage;
+      loadTerms();
+      document.getElementById('browse').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function quickSearch(word) {
+      document.getElementById('searchInput').value = word;
+      document.getElementById('search').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(searchTerm, 400);
+    }
+
+    // ── SUGGEST ────────────────────────────────────────────
+    function prefillSuggest(word) {
+      document.getElementById('suggestEnglish').value = word;
+      setTimeout(() => document.getElementById('suggest').scrollIntoView({ behavior: 'smooth' }), 100);
+    }
+
+    async function submitSuggestion() {
+      const english = document.getElementById('suggestEnglish').value.trim();
+      const zulu = document.getElementById('suggestZulu').value.trim();
+      const definition = document.getElementById('suggestDefinition').value.trim();
+      if (!english) { showMsg('Please enter an English term.', 'error'); return; }
+
+      const btn = document.getElementById('suggestBtn');
+      btn.textContent = 'Sending…'; btn.disabled = true;
+
+      try {
+        const res = await fetch(`${API}/suggest`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ english_word: english, isizulu_word: zulu, definition })
+        });
+        if (res.ok) {
+          showMsg('Thank you! Suggestion submitted.', 'success');
+          ['suggestEnglish','suggestZulu','suggestDefinition'].forEach(id => document.getElementById(id).value = '');
+        } else {
+          showMsg('Submission failed. Try again.', 'error');
+        }
+      } catch { showMsg('Connection error. Try again.', 'error'); }
+
+      btn.textContent = 'Submit Suggestion'; btn.disabled = false;
+    }
+
+    function showMsg(text, type) {
+      const msg = document.getElementById('suggestMsg');
+      msg.textContent = text;
+      msg.className = type === 'success'
+        ? 'text-xs px-3 py-2 bg-green-50 text-green-700 border border-green-200'
+        : 'text-xs px-3 py-2 bg-red-50 text-red-700 border border-red-200';
+      msg.classList.remove('hidden');
+      setTimeout(() => msg.classList.add('hidden'), 4000);
+    }
+
+    // ── INIT ───────────────────────────────────────────────
+    buildAlpha();
+    loadDisciplines();
+    loadTerms();
+  </script>
+</body>
+</html>
