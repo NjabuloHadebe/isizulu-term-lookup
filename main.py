@@ -26,7 +26,40 @@ def home():
 
 # ── SEARCH ──────────────────────────────────────────────────
 @app.get("/search/{keyword}")
+@app.get('/search/{keyword}')
 def search_term(keyword: str):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        query = """
+            SELECT englishword, isizuluword, english_definition, discipline
+            FROM term
+            WHERE LOWER(englishword) = LOWER(%s)
+            OR LOWER(isizuluword) = LOWER(%s)
+            LIMIT 1
+        """
+        cursor.execute(query, (keyword, keyword))
+
+        result = cursor.fetchone()
+        conn.close()
+
+        if result:
+            return {
+                "found": True,
+                "englishWord": result[0],
+                "isiZuluWord": result[1],
+                "definition": result[2],
+                "discipline": result[3]
+            }
+        else:
+            return {
+                "found": False,
+                "message": f"Term '{keyword}' not found. Would you like to suggest it?"
+            }
+
+    except Exception as e:
+        return {"error": str(e)}
     try:
         conn = get_connection()
         cursor = conn.cursor()
