@@ -35,6 +35,7 @@ def search_term(keyword: str):
             SELECT englishword, isizuluword, english_definition, discipline
             FROM term
             WHERE LOWER(englishword) = LOWER(%s)
+            OR LOWER(isizuluword) = LOWER(%s)
             LIMIT 1
         """
         cursor.execute(query, (keyword,))
