@@ -11,9 +11,8 @@
       --red: #CC0000; --red-dark: #8B0000; --red-deep: #5a0000;
       --red-light: #fff0f0; --red-mid: #ffd6d6; --gold: #c8922a;
       --text: #1a1a1a; --text-muted: #666; --text-faint: #999;
-      --border: #e8e0e0; --bg: #fafafa; --white: #ffffff;
+      --border: #e8e0e0; --bg: #fafafa;
       --shadow-sm: 0 1px 4px rgba(0,0,0,0.08);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.18);
       --font-display: 'Playfair Display', Georgia, serif;
       --font-body: 'Source Sans 3', system-ui, sans-serif;
@@ -22,50 +21,159 @@
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-thumb { background: var(--red-mid); border-radius: 3px; }
 
-    /* NAV */
-    .nav { background: var(--red-deep); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(90,0,0,0.5); }
-    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-brand { display: flex; align-items: center; gap: 10px; }
-    .nav-title { font-family: var(--font-display); font-size: 1.1rem; color: #fff; }
-    .nav-title em { font-style: normal; color: var(--gold); }
+    /* ── WHITE STICKY NAV ── */
+    .nav {
+      background: #ffffff;
+      border-bottom: 3px solid var(--red);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .nav-logo {
+      height: 38px;
+      width: auto;
+    }
+    .nav-divider {
+      width: 1px;
+      height: 28px;
+      background: var(--red-mid);
+    }
+    .nav-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--red-dark);
+      white-space: nowrap;
+    }
+    .nav-title em { font-style: normal; color: var(--red); }
     .nav-links { display: flex; gap: 2px; }
-    .nav-link { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.77rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px; border-radius: 4px; transition: all 0.15s; }
-    .nav-link:hover { color: #fff; background: rgba(255,255,255,0.1); }
-    .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
-    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
-    .mobile-menu { display: none; background: var(--red-dark); border-top: 1px solid rgba(255,255,255,0.1); padding: 0.5rem 1rem; }
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.77rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 6px 11px;
+      border-radius: 4px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--red); background: var(--red-light); }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--red); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; background: #fff; border-top: 1px solid var(--border); padding: 0.5rem 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     .mobile-menu.open { display: block; }
-    .mobile-menu a { display: block; color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.88rem; font-weight: 600; padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); text-transform: uppercase; letter-spacing: 0.05em; }
+    .mobile-menu a { display: block; color: var(--red-dark); text-decoration: none; font-size: 0.88rem; font-weight: 600; padding: 10px 8px; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 0.05em; }
     .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--red); background: var(--red-light); border-radius: 4px; }
 
-    /* HERO */
-    .hero { background: linear-gradient(155deg, var(--red-deep) 0%, var(--red-dark) 55%, var(--red) 100%); padding: 3.5rem 1.5rem 4rem; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(200,146,42,0.12) 0%, transparent 65%); pointer-events: none; }
-    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(155deg, var(--red-deep) 0%, var(--red-dark) 55%, var(--red) 100%);
+      padding: 3.5rem 1.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,146,42,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
     .hero-inner { max-width: 680px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(200,146,42,0.18); border: 1px solid rgba(200,146,42,0.45); color: var(--gold); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 1.25rem; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(200,146,42,0.18); border: 1px solid rgba(200,146,42,0.45);
+      color: var(--gold); font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 50px; margin-bottom: 1.25rem;
+    }
     .hero-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 0.75rem; }
     .hero-title em { font-style: normal; color: var(--gold); }
     .hero-sub { color: rgba(255,255,255,0.65); font-size: 1rem; font-weight: 300; margin-bottom: 2rem; }
 
-    /* SEARCH */
+    /* ── SEARCH ── */
     .search-wrap { position: relative; max-width: 540px; margin: 0 auto 2rem; }
-    .search-box { display: flex; background: #fff; border: 2px solid rgba(255,255,255,0.25); border-radius: 50px; overflow: visible; box-shadow: 0 8px 32px rgba(0,0,0,0.3); transition: border-color 0.2s, box-shadow 0.2s; }
+    .search-box {
+      display: flex; background: #fff;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-radius: 50px; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
     .search-box:focus-within { border-color: var(--gold); box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 3px rgba(200,146,42,0.25); }
-    .search-input { flex: 1; border: none; outline: none; padding: 0.875rem 1.25rem; font-family: var(--font-body); font-size: 0.95rem; color: var(--text); background: transparent; border-radius: 50px 0 0 50px; }
+    .search-input {
+      flex: 1; min-width: 0; border: none; outline: none;
+      padding: 0.875rem 1.25rem;
+      font-family: var(--font-body); font-size: 0.95rem; color: var(--text);
+      background: transparent;
+    }
     .search-input::placeholder { color: #bbb; }
-    .search-btn { background: var(--red); color: #fff; border: none; padding: 0 1.5rem; font-family: var(--font-body); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; border-radius: 0 50px 50px 0; white-space: nowrap; }
+    .search-btn {
+      background: var(--red); color: #fff; border: none;
+      padding: 0 1.5rem; flex-shrink: 0;
+      font-family: var(--font-body); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s;
+      white-space: nowrap;
+    }
     .search-btn:hover { background: var(--red-dark); }
 
     /* AUTOCOMPLETE */
-    .ac-drop { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-lg); max-height: 300px; overflow-y: auto; z-index: 300; display: none; }
+    .ac-drop {
+      position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 10px; box-shadow: var(--shadow-lg);
+      max-height: 260px; overflow-y: auto; z-index: 300; display: none;
+    }
     .ac-drop.open { display: block; }
-    .ac-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.12s; gap: 8px; }
+    .ac-item {
+      display: flex; align-items: center; padding: 10px 14px;
+      cursor: pointer; border-bottom: 1px solid var(--border);
+      transition: background 0.12s; gap: 8px;
+      /* Fix mobile overlap */
+      flex-wrap: nowrap; overflow: hidden;
+    }
     .ac-item:last-child { border-bottom: none; }
     .ac-item:hover, .ac-item.focused { background: var(--red-light); }
-    .ac-en { font-weight: 700; font-size: 0.88rem; color: var(--red); flex: 1; }
-    .ac-zu { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
-    .ac-disc { font-size: 0.68rem; font-weight: 700; background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); padding: 2px 8px; border-radius: 50px; white-space: nowrap; }
+    .ac-en { font-weight: 700; font-size: 0.88rem; color: var(--red); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ac-zu { font-size: 0.8rem; color: var(--text-muted); font-style: italic; flex-shrink: 0; max-width: 30%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ac-disc { font-size: 0.65rem; font-weight: 700; background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); padding: 2px 7px; border-radius: 50px; white-space: nowrap; flex-shrink: 0; }
     .ac-empty { padding: 12px 16px; text-align: center; color: var(--text-faint); font-size: 0.85rem; }
     .ac-item mark { background: #fff3b0; color: inherit; border-radius: 2px; padding: 0 1px; }
 
@@ -82,7 +190,6 @@
     .result-card { border: 1px solid var(--border); border-left: 4px solid var(--red); border-radius: 6px; padding: 1.25rem 1.5rem; background: #fff; animation: slideIn 0.2s ease; }
     .result-none { border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; background: #fff; animation: slideIn 0.2s ease; font-size: 0.9rem; color: var(--text-muted); }
     .result-none a { color: var(--red); font-weight: 600; text-decoration: none; }
-    .result-none a:hover { text-decoration: underline; }
     @keyframes slideIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
     .result-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
     .result-zulu { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--red); line-height: 1.2; }
@@ -96,13 +203,12 @@
     .result-def mark { background: #fff3b0; color: inherit; border-radius: 2px; padding: 0 2px; }
 
     /* MAIN GRID */
-    .main { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: 1fr 290px; gap: 2rem; align-items: start; }
+    .main { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: 1fr 300px; gap: 2rem; align-items: start; }
 
     /* BROWSE */
     .browse-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--red); }
     .browse-title { font-family: var(--font-display); font-size: 1.2rem; color: var(--red-dark); }
     .browse-count { font-size: 0.75rem; color: var(--text-faint); background: var(--red-light); padding: 3px 10px; border-radius: 50px; border: 1px solid var(--red-mid); }
-
     .filter-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); }
     .filter-lbl { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
     .pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 1rem; }
@@ -132,7 +238,7 @@
     .tcm:last-child { border-bottom: none; }
     .tcm-top { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; margin-bottom: 3px; }
     .tcm-en { font-weight: 700; font-size: 0.9rem; color: var(--red); }
-    .tcm-arr { color: var(--text-faint); font-size: 0.8rem; }
+    .tcm-arr { color: var(--text-faint); font-size: 0.8rem; flex-shrink: 0; }
     .tcm-zu { font-size: 0.9rem; color: var(--text); }
     .tcm-bot { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .tcm-def { font-size: 0.73rem; color: var(--text-faint); flex: 1; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
@@ -156,6 +262,20 @@
     .sh-gold { background: var(--red-deep); color: var(--gold); }
     .sh-light { background: var(--red-light); color: var(--red-dark); border-bottom: 1px solid var(--red-mid); }
     .side-body { padding: 1.1rem 1.25rem; }
+
+    /* ANALYTICS CARDS */
+    .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+    .an-card { background: var(--red-light); border: 1px solid var(--red-mid); border-radius: 6px; padding: 0.75rem; text-align: center; }
+    .an-num { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--red); line-height: 1; }
+    .an-lbl { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 3px; }
+    .an-section-lbl { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; margin-top: 0.75rem; }
+    .an-section-lbl:first-child { margin-top: 0; }
+    .top-term-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; gap: 8px; }
+    .top-term-row:last-child { border-bottom: none; }
+    .top-term-rank { font-weight: 700; color: var(--text-faint); font-size: 0.7rem; width: 16px; flex-shrink: 0; }
+    .top-term-word { color: var(--red); font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .top-term-count { font-size: 0.72rem; color: var(--text-faint); background: var(--bg); border: 1px solid var(--border); padding: 1px 6px; border-radius: 50px; flex-shrink: 0; }
+    .missing-term { display: inline-block; font-size: 0.75rem; color: var(--red-dark); background: #fff3f3; border: 1px solid var(--red-mid); padding: 2px 8px; border-radius: 50px; margin: 2px; }
 
     /* FORM */
     .fi { width: 100%; border: 1.5px solid var(--border); border-radius: 4px; padding: 8px 11px; font-family: var(--font-body); font-size: 0.875rem; color: var(--text); transition: border-color 0.2s; background: #fff; margin-bottom: 7px; }
@@ -187,15 +307,33 @@
 
     /* RESPONSIVE */
     @media (max-width: 900px) { .main { grid-template-columns: 1fr; } .sidebar { display: grid; grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 640px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .sidebar { grid-template-columns: 1fr; } .hero { padding: 2.5rem 1rem 3rem; } .terms-head { display: none; } .stats { gap: 0.75rem; } }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-title { font-size: 0.85rem; }
+      .sidebar { grid-template-columns: 1fr; }
+      .hero { padding: 2.5rem 1rem 3rem; }
+      .terms-head { display: none; }
+      .stats { gap: 0.6rem; }
+      .stat { padding: 0.6rem 1rem; }
+      .stat-num { font-size: 1.5rem; }
+      /* Mobile autocomplete fix */
+      .ac-disc { display: none; }
+      .ac-zu { max-width: 40%; }
+    }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── WHITE STICKY NAV ── -->
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-brand">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e3/University_of_KwaZulu-Natal_Logo.svg/200px-University_of_KwaZulu-Natal_Logo.svg.png"
+        alt="UKZN Logo" class="nav-logo"
+        onerror="this.style.display='none'"/>
+      <div class="nav-divider"></div>
       <span class="nav-title">isi<em>Zulu</em> Term Bank</span>
     </div>
     <div class="nav-links">
@@ -216,13 +354,12 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section class="hero" id="search">
   <div class="hero-inner">
     <div class="hero-badge">✦ University of KwaZulu-Natal · Official Term Bank</div>
     <h1 class="hero-title">isi<em>Zulu</em> Academic<br/>Term Bank</h1>
     <p class="hero-sub">Search 8,000+ academic terms with isiZulu translations and definitions</p>
-
     <div class="search-wrap">
       <div class="search-box">
         <input id="searchInput" class="search-input" type="text"
@@ -231,7 +368,6 @@
       </div>
       <div class="ac-drop" id="acDrop"></div>
     </div>
-
     <div class="stats">
       <div class="stat"><div class="stat-num" id="statTerms">—</div><div class="stat-lbl">Terms</div></div>
       <div class="stat"><div class="stat-num" id="statDisc">—</div><div class="stat-lbl">Disciplines</div></div>
@@ -240,13 +376,15 @@
   </div>
 </section>
 
-<!-- RESULT -->
+<!-- ── RESULT ── -->
 <div class="result-bar" id="resultBar">
   <div class="result-inner" id="resultInner"></div>
 </div>
 
-<!-- MAIN -->
+<!-- ── MAIN ── -->
 <div class="main">
+
+  <!-- LEFT: BROWSE -->
   <div id="browse">
     <div class="browse-hdr">
       <h2 class="browse-title">Browse Terminology</h2>
@@ -265,10 +403,8 @@
     </div>
 
     <div class="terms-card">
-      <div class="terms-head" id="termsHead">
-        <div>English Term</div>
-        <div>isiZulu</div>
-        <div>Discipline</div>
+      <div class="terms-head">
+        <div>English Term</div><div>isiZulu</div><div>Discipline</div>
       </div>
       <div id="termsList">
         <div style="padding:2rem;text-align:center">
@@ -284,7 +420,10 @@
     </div>
   </div>
 
+  <!-- RIGHT: SIDEBAR -->
   <aside class="sidebar">
+
+    <!-- Contribute -->
     <div class="side-card" id="contribute">
       <div class="side-head sh-red">✍ Contribute a Term</div>
       <div class="side-body">
@@ -296,6 +435,7 @@
       </div>
     </div>
 
+    <!-- Authority -->
     <div class="side-card">
       <div class="side-head sh-gold">⬡ Authority & Sources</div>
       <div class="side-body">
@@ -308,16 +448,58 @@
       </div>
     </div>
 
+    <!-- About -->
     <div class="side-card" id="about">
       <div class="side-head sh-light">ℹ About</div>
       <div class="side-body">
         <div class="about">
           <p>A digital repository of academic terminology with isiZulu translations for UKZN students and staff.</p>
           <p>Supports mother-tongue access to knowledge across 24 disciplines.</p>
-          <div class="about-author">Developed by <strong>University Language Planning and Development Office</strong>
+          <div class="about-author">Developed by <strong>Njabulo Hadebe</strong><br/>UKZN NLP Research Unit</div>
         </div>
       </div>
     </div>
+
+    <!-- Analytics Dashboard -->
+    <div class="side-card">
+      <div class="side-head sh-gold">📊 Analytics Dashboard</div>
+      <div class="side-body">
+
+        <div class="analytics-grid">
+          <div class="an-card">
+            <div class="an-num" id="anTotalVisitors">—</div>
+            <div class="an-lbl">Total Visitors</div>
+          </div>
+          <div class="an-card">
+            <div class="an-num" id="anTodayVisitors">—</div>
+            <div class="an-lbl">Visitors Today</div>
+          </div>
+          <div class="an-card">
+            <div class="an-num" id="anTotalTerms">—</div>
+            <div class="an-lbl">Total Terms</div>
+          </div>
+          <div class="an-card">
+            <div class="an-num" id="anTotalSearches">—</div>
+            <div class="an-lbl">Searches</div>
+          </div>
+        </div>
+
+        <div class="an-section-lbl">🔥 Top 5 Searched Terms</div>
+        <div id="topTermsList">
+          <div class="shimmer" style="height:13px;width:80%;margin-bottom:6px"></div>
+          <div class="shimmer" style="height:13px;width:65%;margin-bottom:6px"></div>
+          <div class="shimmer" style="height:13px;width:70%"></div>
+        </div>
+
+        <div class="an-section-lbl" style="margin-top:1rem">❓ Missing Terms (no results)</div>
+        <div id="missingTermsList">
+          <div class="shimmer" style="height:13px;width:75%;margin-bottom:6px"></div>
+          <div class="shimmer" style="height:13px;width:55%"></div>
+        </div>
+
+      </div>
+    </div>
+
   </aside>
 </div>
 
@@ -333,11 +515,68 @@
   const API = 'https://isizulu-term-lookup.onrender.com';
   let page = 1, discipline = null, letter = null, totalPages = 1;
   let acTimer = null, acIdx = -1, acItems = [];
+
+  // Session ID for analytics
+  let sessionId = sessionStorage.getItem('sid');
+  if (!sessionId) { sessionId = Math.random().toString(36).slice(2); sessionStorage.setItem('sid', sessionId); }
+
   const mobile = () => window.innerWidth < 640;
+
+  // Track page visit
+  trackEvent('visit', null);
 
   // ── MOBILE MENU ──────────────────────────────────
   function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
   function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // ── ANALYTICS TRACKING ───────────────────────────
+  async function trackEvent(type, term, disc) {
+    try {
+      await fetch(`${API}/analytics`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event_type: type, term_searched: term || null, discipline_viewed: disc || null, session_id: sessionId })
+      });
+    } catch {}
+  }
+
+  async function loadAnalytics() {
+    try {
+      const res = await fetch(`${API}/analytics/summary`);
+      const d = await res.json();
+      document.getElementById('anTotalVisitors').textContent = d.total_visitors?.toLocaleString() || '—';
+      document.getElementById('anTodayVisitors').textContent = d.today_visitors?.toLocaleString() || '—';
+      document.getElementById('anTotalTerms').textContent = d.total_terms?.toLocaleString() || '—';
+      document.getElementById('anTotalSearches').textContent = d.total_searches?.toLocaleString() || '—';
+
+      // Top 5 terms
+      if (d.top_terms?.length) {
+        document.getElementById('topTermsList').innerHTML = d.top_terms.slice(0,5).map((t, i) => `
+          <div class="top-term-row">
+            <span class="top-term-rank">${i+1}.</span>
+            <span class="top-term-word">${t.term}</span>
+            <span class="top-term-count">${t.count}×</span>
+          </div>`).join('');
+      } else {
+        document.getElementById('topTermsList').innerHTML = '<p style="font-size:0.78rem;color:#bbb;padding:4px 0">No searches yet</p>';
+      }
+
+      // Missing terms (top 5)
+      if (d.missing_terms?.length) {
+        document.getElementById('missingTermsList').innerHTML = d.missing_terms.slice(0,5).map(t =>
+          `<span class="missing-term">${t.term}</span>`
+        ).join('');
+      } else {
+        document.getElementById('missingTermsList').innerHTML = '<p style="font-size:0.78rem;color:#bbb;padding:4px 0">None yet</p>';
+      }
+
+    } catch {
+      document.getElementById('anTotalVisitors').textContent = '—';
+      document.getElementById('anTodayVisitors').textContent = '—';
+      document.getElementById('anTotalTerms').textContent = '—';
+      document.getElementById('anTotalSearches').textContent = '—';
+    }
+  }
 
   // ── AUTOCOMPLETE ─────────────────────────────────
   const inp = document.getElementById('searchInput');
@@ -351,11 +590,14 @@
   });
 
   inp.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { closeAC(); doSearch(); return; }
-    if (e.key === 'ArrowDown') { acIdx = Math.min(acIdx + 1, acItems.length - 1); renderACFocus(); e.preventDefault(); }
-    if (e.key === 'ArrowUp') { acIdx = Math.max(acIdx - 1, -1); renderACFocus(); e.preventDefault(); }
+    if (e.key === 'ArrowDown') { acIdx = Math.min(acIdx+1, acItems.length-1); renderACFocus(); e.preventDefault(); return; }
+    if (e.key === 'ArrowUp') { acIdx = Math.max(acIdx-1, -1); renderACFocus(); e.preventDefault(); return; }
+    if (e.key === 'Enter') {
+      if (acIdx >= 0 && acItems[acIdx]) { selectAC(acIdx); }
+      else { closeAC(); doSearch(); }
+      return;
+    }
     if (e.key === 'Escape') closeAC();
-    if (e.key === 'Enter' && acIdx >= 0) { selectAC(acIdx); e.preventDefault(); }
   });
 
   document.addEventListener('click', e => { if (!e.target.closest('.search-wrap')) closeAC(); });
@@ -370,12 +612,9 @@
       const ql = q.toLowerCase();
       const filtered = (data.terms || [])
         .filter(t => t.english_word.toLowerCase().includes(ql) || t.isizulu_word.toLowerCase().includes(ql))
-        .slice(0, 7);
-
+        .slice(0, 6);
       acItems = filtered; acIdx = -1;
-
-      if (!filtered.length) { acDrop.innerHTML = '<div class="ac-empty">No matches</div>'; return; }
-
+      if (!filtered.length) { acDrop.innerHTML = '<div class="ac-empty">No matches found</div>'; return; }
       acDrop.innerHTML = filtered.map((t, i) => `
         <div class="ac-item" data-i="${i}" onclick="selectAC(${i})">
           <span class="ac-en">${hl(t.english_word, q)}</span>
@@ -388,15 +627,11 @@
   function renderACFocus() {
     document.querySelectorAll('.ac-item').forEach((el, i) => el.classList.toggle('focused', i === acIdx));
   }
-
   function selectAC(i) {
     const t = acItems[i]; if (!t) return;
-    inp.value = t.english_word;
-    closeAC(); doSearch();
+    inp.value = t.english_word; closeAC(); doSearch();
   }
-
   function closeAC() { acDrop.classList.remove('open'); acDrop.innerHTML = ''; acIdx = -1; acItems = []; }
-
   function hl(text, q) {
     if (!q) return text;
     return text.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<mark>$1</mark>');
@@ -407,19 +642,15 @@
     const kw = inp.value.trim(); if (!kw) return;
     const btn = document.getElementById('searchBtn');
     btn.textContent = '…'; btn.disabled = true;
-
     const bar = document.getElementById('resultBar');
     const inner = document.getElementById('resultInner');
     bar.classList.add('show');
-
     try {
       const res = await fetch(`${API}/search/${encodeURIComponent(kw)}`);
       const d = await res.json();
-
       if (d.found) {
-        const defHtml = d.definition
-          ? hlText(d.definition, kw)
-          : '<span style="color:#bbb;font-style:italic">Definition coming soon</span>';
+        trackEvent('search_found', kw);
+        const defHtml = d.definition ? hlText(d.definition, kw) : '<span style="color:#bbb;font-style:italic">Definition coming soon</span>';
         inner.innerHTML = `
           <div class="result-card">
             <div class="result-top">
@@ -435,6 +666,7 @@
             <div class="result-def">${defHtml}</div>
           </div>`;
       } else {
+        trackEvent('search_missing', kw);
         inner.innerHTML = `
           <div class="result-none">
             No entry found for "<strong>${kw}</strong>".
@@ -444,9 +676,10 @@
     } catch {
       inner.innerHTML = `<div class="result-none" style="color:#c00">Connection error. Please try again.</div>`;
     }
-
     bar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     btn.textContent = 'Search'; btn.disabled = false;
+    // Refresh analytics
+    setTimeout(loadAnalytics, 1000);
   }
 
   function hlText(text, q) {
@@ -476,6 +709,7 @@
     btn.classList.add('active');
     document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.alpha-btn').classList.add('active');
+    if (d) trackEvent('discipline_view', null, d);
     loadTerms();
   }
 
@@ -502,15 +736,12 @@
       <div class="shimmer" style="height:15px;width:55%;margin:0 auto 10px"></div>
       <div class="shimmer" style="height:13px;width:38%;margin:0 auto"></div>
     </div>`;
-
     try {
       let url = `${API}/terms?page=${page}&limit=20`;
       if (discipline) url += `&discipline=${encodeURIComponent(discipline)}`;
       if (letter) url += `&letter=${letter}`;
-
       const res = await fetch(url);
       const data = await res.json();
-
       totalPages = data.pages || 1;
       document.getElementById('statTerms').textContent = data.total?.toLocaleString() || '—';
       document.getElementById('browseCount').textContent = `${data.total?.toLocaleString()} terms · Page ${data.page} of ${data.pages}`;
@@ -547,7 +778,6 @@
       document.getElementById('prevBtn').disabled = page <= 1;
       document.getElementById('nextBtn').disabled = page >= totalPages;
       document.getElementById('pageInfo').textContent = `Page ${page} of ${totalPages}`;
-
     } catch {
       list.innerHTML = `<div style="padding:2rem;text-align:center;color:#c00;font-size:0.88rem">Failed to load. Please refresh.</div>`;
     }
@@ -577,10 +807,8 @@
     const zulu = document.getElementById('sZu').value.trim();
     const def = document.getElementById('sDef').value.trim();
     if (!english) { showMsg('Please enter an English term.', false); return; }
-
     const btn = document.getElementById('submitBtn');
     btn.textContent = 'Submitting…'; btn.disabled = true;
-
     try {
       const res = await fetch(`${API}/suggest`, {
         method: 'POST',
@@ -590,11 +818,8 @@
       if (res.ok) {
         showMsg('Thank you! Contribution submitted.', true);
         ['sEn','sZu','sDef'].forEach(id => document.getElementById(id).value = '');
-      } else {
-        showMsg('Submission failed. Try again.', false);
-      }
+      } else { showMsg('Submission failed. Try again.', false); }
     } catch { showMsg('Connection error.', false); }
-
     btn.textContent = 'Submit Contribution'; btn.disabled = false;
   }
 
@@ -609,6 +834,7 @@
   buildAlpha();
   loadDisciplines();
   loadTerms();
+  loadAnalytics();
   window.addEventListener('resize', loadTerms);
 </script>
 </body>
