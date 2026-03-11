@@ -252,5 +252,33 @@ def analytics_summary():
             "top_terms": top_terms,
             "missing_terms": missing_terms
         }
+    
+    
+    except Exception as e:
+        return {"error": str(e)}
+    
+
+# ── AUTOCOMPLETE ─────────────────────────────────────────────
+@app.get("/autocomplete")
+def autocomplete(q: str = Query(..., min_length=2)):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT englishword, isizuluword, discipline
+            FROM term
+            WHERE LOWER(englishword) LIKE LOWER(%s)
+            OR LOWER(isizuluword) LIKE LOWER(%s)
+            ORDER BY englishword ASC
+            LIMIT 6
+        """, (q + "%", q + "%"))
+        rows = cursor.fetchall()
+        conn.close()
+        return {
+            "results": [
+                {"english_word": r[0], "isizulu_word": r[1], "discipline": r[2]}
+                for r in rows
+            ]
+        }
     except Exception as e:
         return {"error": str(e)}
