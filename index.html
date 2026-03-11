@@ -4,465 +4,612 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>isiZulu Term Bank · UKZN</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #ffffff; color: #1e1e1e; line-height: 1.5; }
-    :root { --ukzn-red: #CC0000; --ukzn-red-dark: #990000; --ukzn-red-light: #ffeeee; --border-light: #e5e5e5; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #CC0000; --red-dark: #8B0000; --red-deep: #5a0000;
+      --red-light: #fff0f0; --red-mid: #ffd6d6; --gold: #c8922a;
+      --text: #1a1a1a; --text-muted: #666; --text-faint: #999;
+      --border: #e8e0e0; --bg: #fafafa; --white: #ffffff;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.18);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+    }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: var(--red-mid); border-radius: 3px; }
 
-    .main-headline { font-family: 'Inter', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--ukzn-red); line-height: 1.2; }
-    @media (max-width: 640px) { .main-headline { font-size: 2rem; } }
+    /* NAV */
+    .nav { background: var(--red-deep); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(90,0,0,0.5); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-title { font-family: var(--font-display); font-size: 1.1rem; color: #fff; }
+    .nav-title em { font-style: normal; color: var(--gold); }
+    .nav-links { display: flex; gap: 2px; }
+    .nav-link { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.77rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px; border-radius: 4px; transition: all 0.15s; }
+    .nav-link:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; background: var(--red-dark); border-top: 1px solid rgba(255,255,255,0.1); padding: 0.5rem 1rem; }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a { display: block; color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.88rem; font-weight: 600; padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); text-transform: uppercase; letter-spacing: 0.05em; }
+    .mobile-menu a:last-child { border-bottom: none; }
 
-    .card { background: white; border: 1px solid var(--border-light); border-radius: 12px; transition: all 0.2s; }
-    .sticky-nav { background: white; border-bottom: 3px solid var(--ukzn-red); box-shadow: 0 2px 8px rgba(204,0,0,0.1); }
+    /* HERO */
+    .hero { background: linear-gradient(155deg, var(--red-deep) 0%, var(--red-dark) 55%, var(--red) 100%); padding: 3.5rem 1.5rem 4rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(200,146,42,0.12) 0%, transparent 65%); pointer-events: none; }
+    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .hero-inner { max-width: 680px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(200,146,42,0.18); border: 1px solid rgba(200,146,42,0.45); color: var(--gold); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 1.25rem; }
+    .hero-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 0.75rem; }
+    .hero-title em { font-style: normal; color: var(--gold); }
+    .hero-sub { color: rgba(255,255,255,0.65); font-size: 1rem; font-weight: 300; margin-bottom: 2rem; }
 
-    .hero-section { background: linear-gradient(135deg, #fff8f8 0%, #ffffff 100%); border-bottom: 1px solid var(--border-light); position: relative; overflow: hidden; padding: 3rem 0; }
+    /* SEARCH */
+    .search-wrap { position: relative; max-width: 540px; margin: 0 auto 2rem; }
+    .search-box { display: flex; background: #fff; border: 2px solid rgba(255,255,255,0.25); border-radius: 50px; overflow: visible; box-shadow: 0 8px 32px rgba(0,0,0,0.3); transition: border-color 0.2s, box-shadow 0.2s; }
+    .search-box:focus-within { border-color: var(--gold); box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 3px rgba(200,146,42,0.25); }
+    .search-input { flex: 1; border: none; outline: none; padding: 0.875rem 1.25rem; font-family: var(--font-body); font-size: 0.95rem; color: var(--text); background: transparent; border-radius: 50px 0 0 50px; }
+    .search-input::placeholder { color: #bbb; }
+    .search-btn { background: var(--red); color: #fff; border: none; padding: 0 1.5rem; font-family: var(--font-body); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; border-radius: 0 50px 50px 0; white-space: nowrap; }
+    .search-btn:hover { background: var(--red-dark); }
 
-    .search-input { border: 2px solid var(--border-light); border-right: none; border-radius: 50px 0 0 50px; padding: 0.875rem 1.5rem; font-size: 1rem; transition: all 0.2s; width: 100%; }
-    .search-input:focus { border-color: var(--ukzn-red); outline: none; }
-    .search-button { background: var(--ukzn-red); color: white; border-radius: 0 50px 50px 0; padding: 0.875rem 2rem; font-weight: 600; border: 2px solid var(--ukzn-red); transition: all 0.2s; white-space: nowrap; }
-    .search-button:hover { background: var(--ukzn-red-dark); border-color: var(--ukzn-red-dark); }
+    /* AUTOCOMPLETE */
+    .ac-drop { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-lg); max-height: 300px; overflow-y: auto; z-index: 300; display: none; }
+    .ac-drop.open { display: block; }
+    .ac-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.12s; gap: 8px; }
+    .ac-item:last-child { border-bottom: none; }
+    .ac-item:hover, .ac-item.focused { background: var(--red-light); }
+    .ac-en { font-weight: 700; font-size: 0.88rem; color: var(--red); flex: 1; }
+    .ac-zu { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+    .ac-disc { font-size: 0.68rem; font-weight: 700; background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); padding: 2px 8px; border-radius: 50px; white-space: nowrap; }
+    .ac-empty { padding: 12px 16px; text-align: center; color: var(--text-faint); font-size: 0.85rem; }
+    .ac-item mark { background: #fff3b0; color: inherit; border-radius: 2px; padding: 0 1px; }
 
-    .stat-card { background: white; border: 1px solid var(--border-light); border-radius: 12px; padding: 1rem 1.5rem; text-align: center; min-width: 100px; }
-    .stat-number { font-size: 2rem; font-weight: 700; color: var(--ukzn-red); line-height: 1; }
-    .stat-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.25rem; font-weight: 500; }
+    /* STATS */
+    .stats { display: flex; justify-content: center; gap: 1.25rem; flex-wrap: wrap; }
+    .stat { background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; padding: 0.7rem 1.4rem; text-align: center; }
+    .stat-num { font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: #fff; line-height: 1; }
+    .stat-lbl { font-size: 0.68rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; font-weight: 600; }
 
-    .pill { padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; border: 2px solid var(--border-light); background: white; color: #444; cursor: pointer; }
-    .pill:hover { border-color: var(--ukzn-red); color: var(--ukzn-red); background: var(--ukzn-red-light); }
-    .pill.active { background: var(--ukzn-red); border-color: var(--ukzn-red); color: white; }
+    /* RESULT */
+    .result-bar { background: #fff; border-bottom: 1px solid var(--border); display: none; }
+    .result-bar.show { display: block; }
+    .result-inner { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+    .result-card { border: 1px solid var(--border); border-left: 4px solid var(--red); border-radius: 6px; padding: 1.25rem 1.5rem; background: #fff; animation: slideIn 0.2s ease; }
+    .result-none { border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; background: #fff; animation: slideIn 0.2s ease; font-size: 0.9rem; color: var(--text-muted); }
+    .result-none a { color: var(--red); font-weight: 600; text-decoration: none; }
+    .result-none a:hover { text-decoration: underline; }
+    @keyframes slideIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
+    .result-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .result-zulu { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--red); line-height: 1.2; }
+    .result-en { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; }
+    .result-en strong { color: var(--text); }
+    .result-badges { display: flex; gap: 6px; flex-wrap: wrap; align-items: flex-start; }
+    .badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 50px; }
+    .badge-disc { background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); }
+    .badge-auth { background: rgba(200,146,42,0.12); color: var(--gold); border: 1px solid rgba(200,146,42,0.3); }
+    .result-def { font-size: 0.95rem; color: var(--text); line-height: 1.75; border-top: 1px solid var(--border); padding-top: 0.75rem; }
+    .result-def mark { background: #fff3b0; color: inherit; border-radius: 2px; padding: 0 2px; }
 
-    .alpha-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; border: 2px solid var(--border-light); background: white; color: #444; cursor: pointer; }
-    .alpha-btn:hover { border-color: var(--ukzn-red); color: var(--ukzn-red); background: var(--ukzn-red-light); }
-    .alpha-btn.active { background: var(--ukzn-red); border-color: var(--ukzn-red); color: white; }
+    /* MAIN GRID */
+    .main { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: 1fr 290px; gap: 2rem; align-items: start; }
 
-    /* Fixed: 3-col grid matching header */
-    .term-row { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 1rem; padding: 0.875rem 1.5rem; border-bottom: 1px solid var(--border-light); cursor: pointer; transition: all 0.15s; background: white; font-size: 0.9rem; align-items: center; }
-    .term-row:hover { background: var(--ukzn-red-light); }
+    /* BROWSE */
+    .browse-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--red); }
+    .browse-title { font-family: var(--font-display); font-size: 1.2rem; color: var(--red-dark); }
+    .browse-count { font-size: 0.75rem; color: var(--text-faint); background: var(--red-light); padding: 3px 10px; border-radius: 50px; border: 1px solid var(--red-mid); }
+
+    .filter-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); }
+    .filter-lbl { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
+    .pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 1rem; }
+    .pills:last-child { margin-bottom: 0; }
+    .pill { font-size: 0.76rem; font-weight: 600; padding: 4px 11px; border-radius: 50px; border: 1.5px solid var(--border); background: #fff; color: var(--text-muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .pill:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
+    .pill.active { background: var(--red); border-color: var(--red); color: #fff; }
+    .alpha-row { display: flex; flex-wrap: wrap; gap: 3px; }
+    .alpha-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.73rem; font-weight: 700; border: 1.5px solid var(--border); background: #fff; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+    .alpha-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
+    .alpha-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+
+    /* TERMS TABLE */
+    .terms-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .terms-head { display: grid; grid-template-columns: 1.6fr 1.4fr 1fr; gap: 1rem; padding: 0.6rem 1.25rem; background: var(--red-deep); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.75); }
+    .term-row { display: grid; grid-template-columns: 1.6fr 1.4fr 1fr; gap: 1rem; padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; align-items: start; }
     .term-row:last-child { border-bottom: none; }
+    .term-row:hover { background: var(--red-light); }
+    .term-en { font-weight: 700; font-size: 0.88rem; color: var(--red); }
+    .term-def { font-size: 0.73rem; color: var(--text-faint); margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
+    .term-zu { font-size: 0.88rem; color: var(--text); }
+    .term-badge { display: inline-block; font-size: 0.65rem; font-weight: 700; color: var(--red); background: var(--red-light); border: 1px solid var(--red-mid); padding: 2px 8px; border-radius: 50px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
-    .nav-link { color: #444; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8rem; padding: 0.5rem 1rem; transition: all 0.2s; text-decoration: none; }
-    .nav-link:hover { color: var(--ukzn-red); }
+    /* MOBILE CARDS */
+    .tcm { padding: 0.875rem 1rem; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; }
+    .tcm:hover { background: var(--red-light); }
+    .tcm:last-child { border-bottom: none; }
+    .tcm-top { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; margin-bottom: 3px; }
+    .tcm-en { font-weight: 700; font-size: 0.9rem; color: var(--red); }
+    .tcm-arr { color: var(--text-faint); font-size: 0.8rem; }
+    .tcm-zu { font-size: 0.9rem; color: var(--text); }
+    .tcm-bot { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .tcm-def { font-size: 0.73rem; color: var(--text-faint); flex: 1; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 
-    .footer { background: #1a1a1a; color: white; padding: 1.5rem 0; margin-top: 3rem; border-top: 3px solid var(--ukzn-red); }
-
-    #mobileMenu { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.3s ease; background: white; border-top: 1px solid var(--border-light); }
-    #mobileMenu.open { max-height: 300px; opacity: 1; }
-
-    .shimmer { background: linear-gradient(90deg, #f0f0f0 0%, #ffeeee 50%, #f0f0f0 100%); background-size: 200% 100%; animation: shimmer 1.2s ease-in-out infinite; border-radius: 6px; }
+    /* SHIMMER */
+    .shimmer { background: linear-gradient(90deg, #f5f0f0 0%, #ffe8e8 50%, #f5f0f0 100%); background-size: 200% 100%; animation: shimmer 1.3s ease infinite; border-radius: 4px; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    .fade-in { animation: fadeIn 0.2s ease forwards; }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)} }
+    /* PAGINATION */
+    .pagination { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.25rem; background: #fafafa; border-top: 1px solid var(--border); }
+    .page-btn { font-size: 0.8rem; font-weight: 700; color: var(--red); background: none; border: 1.5px solid var(--red-mid); border-radius: 4px; padding: 5px 14px; cursor: pointer; transition: all 0.15s; font-family: var(--font-body); }
+    .page-btn:hover:not(:disabled) { background: var(--red); color: #fff; border-color: var(--red); }
+    .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .page-info { font-size: 0.78rem; color: var(--text-faint); }
+
+    /* SIDEBAR */
+    .sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
+    .side-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .side-head { padding: 0.825rem 1.25rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .sh-red { background: var(--red); color: #fff; }
+    .sh-gold { background: var(--red-deep); color: var(--gold); }
+    .sh-light { background: var(--red-light); color: var(--red-dark); border-bottom: 1px solid var(--red-mid); }
+    .side-body { padding: 1.1rem 1.25rem; }
+
+    /* FORM */
+    .fi { width: 100%; border: 1.5px solid var(--border); border-radius: 4px; padding: 8px 11px; font-family: var(--font-body); font-size: 0.875rem; color: var(--text); transition: border-color 0.2s; background: #fff; margin-bottom: 7px; }
+    .fi:focus { outline: none; border-color: var(--red); }
+    textarea.fi { resize: none; }
+    .form-btn { width: 100%; background: var(--red); color: #fff; border: none; padding: 9px; font-family: var(--font-body); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
+    .form-btn:hover { background: var(--red-dark); }
+    .form-msg { display: none; font-size: 0.76rem; padding: 6px 10px; border-radius: 4px; margin-top: 8px; }
+    .fm-ok { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
+    .fm-err { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
+
+    /* AUTHORITY */
+    .auth-list { list-style: none; }
+    .auth-list li { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+    .auth-list li:last-child { border-bottom: none; }
+    .auth-list li::before { content: '✦'; color: var(--gold); font-size: 0.62rem; margin-top: 4px; flex-shrink: 0; }
+
+    /* ABOUT */
+    .about p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.7rem; }
+    .about p:last-child { margin-bottom: 0; }
+    .about-author { font-size: 0.75rem; color: var(--text-faint); padding-top: 0.75rem; border-top: 1px solid var(--border); margin-top: 0.75rem; }
+    .about-author strong { color: var(--red); }
+
+    /* FOOTER */
+    .footer { background: var(--red-deep); border-top: 2px solid var(--gold); padding: 1.25rem 1.5rem; margin-top: 1rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .footer-text, .footer-credit { font-size: 0.76rem; color: rgba(255,255,255,0.45); }
+    .footer-credit strong { color: var(--gold); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) { .main { grid-template-columns: 1fr; } .sidebar { display: grid; grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 640px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .sidebar { grid-template-columns: 1fr; } .hero { padding: 2.5rem 1rem 3rem; } .terms-head { display: none; } .stats { gap: 0.75rem; } }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="sticky-nav sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center gap-3">
-          <img src="https://ukzn.ac.za/wp-content/uploads/2020/03/Transp_bg.png"
-               alt="UKZN" class="h-10 w-auto"
-               onerror="this.style.display='none'; document.getElementById('ukznText').style.display='block'"/>
-          <span id="ukznText" style="display:none" class="font-bold text-[#CC0000] text-xl">UKZN</span>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="nav-title">isi<em>Zulu</em> Term Bank</span>
+    </div>
+    <div class="nav-links">
+      <a href="#search" class="nav-link">Search</a>
+      <a href="#browse" class="nav-link">Browse</a>
+      <a href="#contribute" class="nav-link">Contribute</a>
+      <a href="#about" class="nav-link">About</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#search" onclick="closeMenu()">🔍 Search</a>
+    <a href="#browse" onclick="closeMenu()">📖 Browse</a>
+    <a href="#contribute" onclick="closeMenu()">✍️ Contribute</a>
+    <a href="#about" onclick="closeMenu()">ℹ️ About</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="search">
+  <div class="hero-inner">
+    <div class="hero-badge">✦ University of KwaZulu-Natal · Official Term Bank</div>
+    <h1 class="hero-title">isi<em>Zulu</em> Academic<br/>Term Bank</h1>
+    <p class="hero-sub">Search 8,000+ academic terms with isiZulu translations and definitions</p>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <input id="searchInput" class="search-input" type="text"
+          placeholder="Search in English or isiZulu…" autocomplete="off"/>
+        <button class="search-btn" id="searchBtn" onclick="doSearch()">Search</button>
+      </div>
+      <div class="ac-drop" id="acDrop"></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="statTerms">—</div><div class="stat-lbl">Terms</div></div>
+      <div class="stat"><div class="stat-num" id="statDisc">—</div><div class="stat-lbl">Disciplines</div></div>
+      <div class="stat"><div class="stat-num">Free</div><div class="stat-lbl">Access</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<div class="result-bar" id="resultBar">
+  <div class="result-inner" id="resultInner"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div id="browse">
+    <div class="browse-hdr">
+      <h2 class="browse-title">Browse Terminology</h2>
+      <span class="browse-count" id="browseCount">Loading…</span>
+    </div>
+
+    <div class="filter-card">
+      <div class="filter-lbl">Filter by Discipline</div>
+      <div class="pills" id="discPills">
+        <div class="shimmer" style="height:26px;width:36px;border-radius:50px"></div>
+        <div class="shimmer" style="height:26px;width:70px;border-radius:50px;margin-left:4px"></div>
+        <div class="shimmer" style="height:26px;width:55px;border-radius:50px;margin-left:4px"></div>
+      </div>
+      <div class="filter-lbl">Filter by First Letter</div>
+      <div class="alpha-row" id="alphaRow"></div>
+    </div>
+
+    <div class="terms-card">
+      <div class="terms-head" id="termsHead">
+        <div>English Term</div>
+        <div>isiZulu</div>
+        <div>Discipline</div>
+      </div>
+      <div id="termsList">
+        <div style="padding:2rem;text-align:center">
+          <div class="shimmer" style="height:15px;width:55%;margin:0 auto 10px"></div>
+          <div class="shimmer" style="height:13px;width:38%;margin:0 auto"></div>
         </div>
-        <div class="hidden md:flex items-center gap-1">
-          <a href="#search" class="nav-link">Search</a>
-          <a href="#browse" class="nav-link">Browse</a>
-          <a href="#contribute" class="nav-link">Contribute</a>
-          <a href="#about" class="nav-link">About</a>
-        </div>
-        <button id="menuBtn" class="md:hidden p-2 hover:bg-[#ffeeee] rounded-lg transition">
-          <svg id="menuIcon" class="w-5 h-5 text-[#CC0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
+      </div>
+      <div class="pagination" id="pagination" style="display:none">
+        <button class="page-btn" id="prevBtn" onclick="changePage(-1)">← Prev</button>
+        <span class="page-info" id="pageInfo"></span>
+        <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next →</button>
       </div>
     </div>
-    <div id="mobileMenu" class="md:hidden">
-      <div class="px-4 py-2 space-y-1">
-        <a href="#search"     class="mobile-link block px-4 py-2 text-[#CC0000] hover:bg-[#ffeeee] rounded-lg font-semibold">🔍 Search</a>
-        <a href="#browse"     class="mobile-link block px-4 py-2 text-[#CC0000] hover:bg-[#ffeeee] rounded-lg font-semibold">📖 Browse</a>
-        <a href="#contribute" class="mobile-link block px-4 py-2 text-[#CC0000] hover:bg-[#ffeeee] rounded-lg font-semibold">✍️ Contribute</a>
-        <a href="#about"      class="mobile-link block px-4 py-2 text-[#CC0000] hover:bg-[#ffeeee] rounded-lg font-semibold">ℹ️ About</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section id="search" class="hero-section">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-block text-xs font-semibold text-[#CC0000] uppercase tracking-wider mb-3 bg-[#ffeeee] px-3 py-1 rounded-full border border-[#CC0000]">
-        University of KwaZulu-Natal
-      </span>
-      <h1 class="main-headline mb-3">isiZulu Academic Term Bank</h1>
-      <p class="text-base text-gray-600 mb-6 max-w-2xl mx-auto">Search academic terminology with accurate isiZulu translations</p>
-
-      <div class="max-w-xl mx-auto">
-        <div class="flex">
-          <input id="searchInput" type="text"
-            placeholder="Search in English or isiZulu…"
-            class="search-input text-gray-700 placeholder-gray-400" autocomplete="off"/>
-          <button id="searchBtn" onclick="searchTerm()" class="search-button">Search</button>
-        </div>
-      </div>
-
-      <div class="flex flex-wrap justify-center gap-3 mt-8">
-        <div class="stat-card">
-          <div class="stat-number" id="statTerms">—</div>
-          <div class="stat-label">Terms</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number" id="statDisciplines">—</div>
-          <div class="stat-label">Disciplines</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">Free</div>
-          <div class="stat-label">Access</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEARCH RESULT -->
-  <div id="resultBox" class="hidden bg-white border-y border-[#e5e5e5]">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-5" id="resultInner"></div>
   </div>
 
-  <!-- MAIN -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-      <!-- LEFT -->
-      <div class="lg:col-span-2" id="browse">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-bold text-[#CC0000]">Browse Terminology</h2>
-          <span id="termCount" class="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full border border-[#e5e5e5]">Loading…</span>
-        </div>
-
-        <!-- Filters -->
-        <div class="card p-4 mb-5">
-          <div class="mb-4">
-            <div class="text-xs font-bold text-[#CC0000] uppercase tracking-wider mb-2">Filter by Discipline</div>
-            <div id="disciplinePills" class="flex flex-wrap gap-1.5">
-              <div class="shimmer h-7 w-16 rounded-full"></div>
-              <div class="shimmer h-7 w-24 rounded-full"></div>
-              <div class="shimmer h-7 w-20 rounded-full"></div>
-              <div class="shimmer h-7 w-16 rounded-full"></div>
-            </div>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-[#CC0000] uppercase tracking-wider mb-2">Filter by First Letter</div>
-            <div id="alphaFilter" class="flex flex-wrap gap-1"></div>
-          </div>
-        </div>
-
-        <!-- Terms table -->
-        <div class="card overflow-hidden">
-          <!-- Desktop header — matches term-row 3 cols -->
-          <div class="hidden md:grid grid-cols-3 gap-4 px-6 py-2 bg-gray-50 border-b border-[#e5e5e5] text-xs font-bold text-[#CC0000] uppercase tracking-wider"
-               style="grid-template-columns: 2fr 2fr 1fr;">
-            <div>English</div>
-            <div>isiZulu</div>
-            <div>Discipline</div>
-          </div>
-
-          <div id="termsList">
-            <div class="p-8 space-y-3">
-              <div class="shimmer h-5 w-2/5 mx-auto"></div>
-              <div class="shimmer h-4 w-3/5 mx-auto"></div>
-              <div class="shimmer h-4 w-1/3 mx-auto"></div>
-            </div>
-          </div>
-
-          <!-- Pagination -->
-          <div id="pagination" class="hidden px-5 py-3 bg-gray-50 border-t border-[#e5e5e5] flex items-center justify-between">
-            <button id="prevBtn" onclick="changePage(-1)"
-              class="px-3 py-1 text-sm font-semibold text-[#CC0000] hover:text-[#990000] disabled:opacity-30 transition-colors">
-              ← Previous
-            </button>
-            <span id="pageInfo" class="text-sm text-gray-500"></span>
-            <button id="nextBtn" onclick="changePage(1)"
-              class="px-3 py-1 text-sm font-semibold text-[#CC0000] hover:text-[#990000] disabled:opacity-30 transition-colors">
-              Next →
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT -->
-      <div class="space-y-5">
-
-        <!-- Contribute -->
-        <div id="contribute" class="card overflow-hidden">
-          <div class="px-5 py-3 border-b border-[#e5e5e5] bg-[#CC0000]">
-            <h3 class="font-bold text-white">Contribute a Term</h3>
-            <p class="text-xs text-white/80 mt-0.5">Help grow the isiZulu term bank</p>
-          </div>
-          <div class="p-5 space-y-3">
-            <input id="suggestEnglish" type="text" placeholder="English term *"
-              class="w-full px-3 py-2 text-sm border border-[#e5e5e5] rounded focus:border-[#CC0000] focus:ring-1 focus:ring-[#CC0000] outline-none transition"/>
-            <input id="suggestZulu" type="text" placeholder="isiZulu translation (optional)"
-              class="w-full px-3 py-2 text-sm border border-[#e5e5e5] rounded focus:border-[#CC0000] focus:ring-1 focus:ring-[#CC0000] outline-none transition"/>
-            <textarea id="suggestDefinition" rows="2" placeholder="Definition or context..."
-              class="w-full px-3 py-2 text-sm border border-[#e5e5e5] rounded focus:border-[#CC0000] focus:ring-1 focus:ring-[#CC0000] outline-none transition resize-none"></textarea>
-            <button id="suggestBtn" onclick="submitSuggestion()"
-              class="w-full bg-[#CC0000] hover:bg-[#990000] text-white font-semibold py-2 px-3 rounded text-sm transition-colors">
-              Submit Contribution
-            </button>
-            <div id="suggestMsg" class="hidden text-xs p-2 rounded"></div>
-          </div>
-        </div>
-
-        <!-- About -->
-        <div id="about" class="card overflow-hidden">
-          <div class="px-5 py-3 border-b border-[#e5e5e5] bg-[#ffeeee]">
-            <h3 class="font-bold text-[#CC0000]">About the Project</h3>
-          </div>
-          <div class="p-5 space-y-3 text-sm text-gray-600">
-            <p>A digital repository of academic terminology with isiZulu translations across 24 disciplines.</p>
-            <p>Built to support students and staff in accessing knowledge in their mother tongue.</p>
-            <div class="pt-3 border-t border-[#e5e5e5]">
-              <p class="text-xs text-gray-500">
-                Developed by <span class="font-semibold text-[#CC0000]">Njabulo Hadebe</span><br/>
-                UKZN NLP Research Unit
-              </p>
-            </div>
-          </div>
-        </div>
-
+  <aside class="sidebar">
+    <div class="side-card" id="contribute">
+      <div class="side-head sh-red">✍ Contribute a Term</div>
+      <div class="side-body">
+        <input id="sEn" class="fi" type="text" placeholder="English term *"/>
+        <input id="sZu" class="fi" type="text" placeholder="isiZulu translation (optional)"/>
+        <textarea id="sDef" class="fi" rows="2" placeholder="Definition or context…"></textarea>
+        <button class="form-btn" id="submitBtn" onclick="submitSuggestion()">Submit Contribution</button>
+        <div class="form-msg" id="formMsg"></div>
       </div>
     </div>
-  </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-gray-400">
-        <span>© University of KwaZulu-Natal · isiZulu Term Bank</span>
-        <span>Built by <span class="font-semibold text-white">Njabulo Hadebe</span></span>
+    <div class="side-card">
+      <div class="side-head sh-gold">⬡ Authority & Sources</div>
+      <div class="side-body">
+        <ul class="auth-list">
+          <li>Based on UKZN Term Bank data across 24 academic disciplines</li>
+          <li>Definitions verified using academic references</li>
+          <li>isiZulu translations by UKZN language specialists</li>
+          <li>Continuously updated with user contributions</li>
+        </ul>
       </div>
     </div>
-  </footer>
 
-  <script>
-    const API = 'https://isizulu-term-lookup.onrender.com';
-    let currentPage = 1, currentDiscipline = null, currentLetter = null, totalPages = 1;
+    <div class="side-card" id="about">
+      <div class="side-head sh-light">ℹ About</div>
+      <div class="side-body">
+        <div class="about">
+          <p>A digital repository of academic terminology with isiZulu translations for UKZN students and staff.</p>
+          <p>Supports mother-tongue access to knowledge across 24 disciplines.</p>
+          <div class="about-author">Developed by <strong>Njabulo Hadebe</strong><br/>UKZN NLP Research Unit</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
 
-    // ── MOBILE MENU ─────────────────────────────────────
-    document.getElementById('menuBtn').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('open');
-    });
-    document.querySelectorAll('.mobile-link').forEach(l => {
-      l.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
-    });
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-text">© University of KwaZulu-Natal · isiZulu Term Bank</span>
+    <span class="footer-credit">Built by <strong>Njabulo Hadebe</strong></span>
+  </div>
+</footer>
 
-    // ── SEARCH ──────────────────────────────────────────
-    document.getElementById('searchInput').addEventListener('keydown', e => {
-      if (e.key === 'Enter') searchTerm();
-    });
+<script>
+  const API = 'https://isizulu-term-lookup.onrender.com';
+  let page = 1, discipline = null, letter = null, totalPages = 1;
+  let acTimer = null, acIdx = -1, acItems = [];
+  const mobile = () => window.innerWidth < 640;
 
-    async function searchTerm() {
-      const keyword = document.getElementById('searchInput').value.trim();
-      if (!keyword) return;
+  // ── MOBILE MENU ──────────────────────────────────
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
 
-      const btn = document.getElementById('searchBtn');
-      btn.innerHTML = '<svg class="w-4 h-4 animate-spin mx-auto" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>';
-      btn.disabled = true;
+  // ── AUTOCOMPLETE ─────────────────────────────────
+  const inp = document.getElementById('searchInput');
+  const acDrop = document.getElementById('acDrop');
 
-      const box = document.getElementById('resultBox');
-      const inner = document.getElementById('resultInner');
-      box.classList.remove('hidden');
+  inp.addEventListener('input', () => {
+    clearTimeout(acTimer);
+    const q = inp.value.trim();
+    if (q.length < 2) { closeAC(); return; }
+    acTimer = setTimeout(() => fetchAC(q), 230);
+  });
 
-      try {
-        const res = await fetch(`${API}/search/${encodeURIComponent(keyword)}`);
-        const data = await res.json();
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { closeAC(); doSearch(); return; }
+    if (e.key === 'ArrowDown') { acIdx = Math.min(acIdx + 1, acItems.length - 1); renderACFocus(); e.preventDefault(); }
+    if (e.key === 'ArrowUp') { acIdx = Math.max(acIdx - 1, -1); renderACFocus(); e.preventDefault(); }
+    if (e.key === 'Escape') closeAC();
+    if (e.key === 'Enter' && acIdx >= 0) { selectAC(acIdx); e.preventDefault(); }
+  });
 
-        if (data.found) {
-          inner.innerHTML = `
-            <div class="card p-4 border-l-4 border-l-[#CC0000] fade-in">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-bold text-[#CC0000] uppercase tracking-wider">isiZulu</span>
-                ${data.discipline ? `<span class="text-xs bg-[#ffeeee] text-[#CC0000] px-2 py-0.5 rounded-full border border-[#CC0000]">${data.discipline}</span>` : ''}
+  document.addEventListener('click', e => { if (!e.target.closest('.search-wrap')) closeAC(); });
+
+  async function fetchAC(q) {
+    acDrop.innerHTML = '<div class="ac-empty">Searching…</div>';
+    acDrop.classList.add('open');
+    try {
+      const url = `${API}/terms?page=1&limit=30&letter=${encodeURIComponent(q[0].toUpperCase())}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const ql = q.toLowerCase();
+      const filtered = (data.terms || [])
+        .filter(t => t.english_word.toLowerCase().includes(ql) || t.isizulu_word.toLowerCase().includes(ql))
+        .slice(0, 7);
+
+      acItems = filtered; acIdx = -1;
+
+      if (!filtered.length) { acDrop.innerHTML = '<div class="ac-empty">No matches</div>'; return; }
+
+      acDrop.innerHTML = filtered.map((t, i) => `
+        <div class="ac-item" data-i="${i}" onclick="selectAC(${i})">
+          <span class="ac-en">${hl(t.english_word, q)}</span>
+          <span class="ac-zu">${t.isizulu_word}</span>
+          <span class="ac-disc">${t.discipline || ''}</span>
+        </div>`).join('');
+    } catch { closeAC(); }
+  }
+
+  function renderACFocus() {
+    document.querySelectorAll('.ac-item').forEach((el, i) => el.classList.toggle('focused', i === acIdx));
+  }
+
+  function selectAC(i) {
+    const t = acItems[i]; if (!t) return;
+    inp.value = t.english_word;
+    closeAC(); doSearch();
+  }
+
+  function closeAC() { acDrop.classList.remove('open'); acDrop.innerHTML = ''; acIdx = -1; acItems = []; }
+
+  function hl(text, q) {
+    if (!q) return text;
+    return text.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<mark>$1</mark>');
+  }
+
+  // ── SEARCH ───────────────────────────────────────
+  async function doSearch() {
+    const kw = inp.value.trim(); if (!kw) return;
+    const btn = document.getElementById('searchBtn');
+    btn.textContent = '…'; btn.disabled = true;
+
+    const bar = document.getElementById('resultBar');
+    const inner = document.getElementById('resultInner');
+    bar.classList.add('show');
+
+    try {
+      const res = await fetch(`${API}/search/${encodeURIComponent(kw)}`);
+      const d = await res.json();
+
+      if (d.found) {
+        const defHtml = d.definition
+          ? hlText(d.definition, kw)
+          : '<span style="color:#bbb;font-style:italic">Definition coming soon</span>';
+        inner.innerHTML = `
+          <div class="result-card">
+            <div class="result-top">
+              <div>
+                <div class="result-zulu">${d.isiZuluWord}</div>
+                <div class="result-en">English: <strong>${d.englishWord}</strong></div>
               </div>
-              <h3 class="text-2xl font-bold text-[#CC0000] mb-1">${data.isiZuluWord}</h3>
-              <p class="text-sm text-gray-600 mb-2">English: <span class="font-semibold">${data.englishWord}</span></p>
-              ${data.definition ? `<p class="text-sm text-gray-500 pt-2 border-t border-[#e5e5e5]">${data.definition}</p>` : '<p class="text-xs text-gray-400 pt-2 border-t border-[#e5e5e5] italic">Definition coming soon</p>'}
-            </div>`;
-        } else {
-          inner.innerHTML = `
-            <div class="card p-4 fade-in">
-              <p class="text-sm text-gray-600">No term found for "<strong>${keyword}</strong>"</p>
-              <p class="text-xs mt-1"><a href="#contribute" onclick="prefillSuggest('${keyword}')" class="text-[#CC0000] hover:text-[#990000] font-semibold">Suggest this term →</a></p>
-            </div>`;
-        }
-      } catch {
-        inner.innerHTML = `<div class="bg-red-50 border border-red-200 rounded p-4 text-sm text-red-600 fade-in">Connection error. Please try again.</div>`;
+              <div class="result-badges">
+                ${d.discipline ? `<span class="badge badge-disc">${d.discipline}</span>` : ''}
+                <span class="badge badge-auth">UKZN Term Bank</span>
+              </div>
+            </div>
+            <div class="result-def">${defHtml}</div>
+          </div>`;
+      } else {
+        inner.innerHTML = `
+          <div class="result-none">
+            No entry found for "<strong>${kw}</strong>".
+            <a href="#contribute" onclick="prefill('${kw.replace(/'/g,"\\'")}')">Suggest this term →</a>
+          </div>`;
       }
-
-      btn.textContent = 'Search';
-      btn.disabled = false;
+    } catch {
+      inner.innerHTML = `<div class="result-none" style="color:#c00">Connection error. Please try again.</div>`;
     }
 
-    // ── DISCIPLINES ─────────────────────────────────────
-    async function loadDisciplines() {
-      try {
-        const res = await fetch(`${API}/disciplines`);
-        const data = await res.json();
+    bar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    btn.textContent = 'Search'; btn.disabled = false;
+  }
 
-        document.getElementById('statDisciplines').textContent = data.disciplines.length;
+  function hlText(text, q) {
+    if (!q || q.length < 2) return text;
+    return text.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<mark>$1</mark>');
+  }
 
-        const container = document.getElementById('disciplinePills');
-        container.innerHTML = `
-          <button class="pill active" onclick="filterDiscipline(null, this)">All</button>
-          ${data.disciplines.map(d => `
-            <button class="pill" onclick="filterDiscipline('${d.name.replace(/'/g,"\\'")}', this)">
-              ${d.name} <span class="opacity-60 text-xs">${d.count}</span>
-            </button>`).join('')}`;
-      } catch {
-        document.getElementById('disciplinePills').innerHTML = '<span class="text-xs text-gray-400">Could not load disciplines</span>';
-      }
+  // ── DISCIPLINES ──────────────────────────────────
+  async function loadDisciplines() {
+    try {
+      const res = await fetch(`${API}/disciplines`);
+      const data = await res.json();
+      document.getElementById('statDisc').textContent = data.disciplines.length;
+      document.getElementById('discPills').innerHTML =
+        `<button class="pill active" onclick="filterDisc(null,this)">All</button>` +
+        data.disciplines.map(d =>
+          `<button class="pill" onclick="filterDisc('${d.name.replace(/'/g,"\\'")}',this)">${d.name} <span style="opacity:0.55;font-size:0.68em">${d.count}</span></button>`
+        ).join('');
+    } catch {
+      document.getElementById('discPills').innerHTML = '<span style="font-size:0.8rem;color:#aaa">Could not load</span>';
     }
+  }
 
-    function filterDiscipline(discipline, btn) {
-      currentDiscipline = discipline; currentLetter = null; currentPage = 1;
-      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
-      document.querySelector('.alpha-btn').classList.add('active');
-      loadTerms();
-    }
-
-    // ── ALPHABET ────────────────────────────────────────
-    function buildAlpha() {
-      const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-      document.getElementById('alphaFilter').innerHTML =
-        `<button class="alpha-btn active" onclick="filterLetter(null,this)">All</button>` +
-        alpha.map(l => `<button class="alpha-btn" onclick="filterLetter('${l}',this)">${l}</button>`).join('');
-    }
-
-    function filterLetter(letter, btn) {
-      currentLetter = letter; currentPage = 1;
-      document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      loadTerms();
-    }
-
-    // ── LOAD TERMS ──────────────────────────────────────
-    async function loadTerms() {
-      const list = document.getElementById('termsList');
-      list.innerHTML = `<div class="p-8 space-y-3"><div class="shimmer h-5 w-2/5 mx-auto"></div><div class="shimmer h-4 w-3/5 mx-auto"></div><div class="shimmer h-4 w-1/3 mx-auto"></div></div>`;
-
-      try {
-        let url = `${API}/terms?page=${currentPage}&limit=20`;
-        if (currentDiscipline) url += `&discipline=${encodeURIComponent(currentDiscipline)}`;
-        if (currentLetter) url += `&letter=${currentLetter}`;
-
-        const res = await fetch(url);
-        const data = await res.json();
-
-        totalPages = data.pages || 1;
-        document.getElementById('statTerms').textContent = data.total?.toLocaleString() || '—';
-        document.getElementById('termCount').textContent = `${data.total?.toLocaleString()} terms · Page ${data.page} of ${data.pages}`;
-
-        list.innerHTML = data.terms.length === 0
-          ? `<div class="p-10 text-center text-gray-400 text-sm">No terms found</div>`
-          : data.terms.map(t => `
-              <div onclick="quickSearch('${t.english_word.replace(/'/g,"\\'")}')" class="term-row fade-in">
-                <div class="font-semibold text-[#CC0000] truncate">${t.english_word}</div>
-                <div class="text-gray-800 truncate">${t.isizulu_word}</div>
-                <div class="text-xs text-gray-400 truncate">${t.discipline || '—'}</div>
-              </div>`).join('');
-
-        // Mobile cards
-        if (window.innerWidth < 768) {
-          list.innerHTML = data.terms.length === 0
-            ? `<div class="p-10 text-center text-gray-400 text-sm">No terms found</div>`
-            : data.terms.map(t => `
-                <div onclick="quickSearch('${t.english_word.replace(/'/g,"\\'")}')"
-                  class="px-4 py-3 border-b border-[#e5e5e5] cursor-pointer hover:bg-[#ffeeee] transition-colors fade-in">
-                  <div class="flex items-baseline gap-2">
-                    <span class="font-semibold text-[#CC0000] text-sm">${t.english_word}</span>
-                    <span class="text-gray-400 text-xs">→</span>
-                    <span class="text-gray-800 text-sm">${t.isizulu_word}</span>
-                  </div>
-                  <div class="text-xs text-gray-400 mt-0.5">${t.discipline || ''}</div>
-                </div>`).join('');
-        }
-
-        const pg = document.getElementById('pagination');
-        pg.classList.toggle('hidden', totalPages <= 1);
-        if (totalPages > 1) {
-          document.getElementById('prevBtn').disabled = currentPage <= 1;
-          document.getElementById('nextBtn').disabled = currentPage >= totalPages;
-          document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
-        }
-
-      } catch {
-        list.innerHTML = `<div class="p-10 text-center text-red-400 text-sm">Failed to load terms. Please refresh.</div>`;
-      }
-    }
-
-    function changePage(dir) {
-      const p = currentPage + dir;
-      if (p < 1 || p > totalPages) return;
-      currentPage = p;
-      loadTerms();
-      document.getElementById('browse').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function quickSearch(word) {
-      document.getElementById('searchInput').value = word;
-      document.getElementById('search').scrollIntoView({ behavior: 'smooth' });
-      setTimeout(searchTerm, 300);
-    }
-
-    // ── SUGGEST ─────────────────────────────────────────
-    function prefillSuggest(word) {
-      document.getElementById('suggestEnglish').value = word;
-      setTimeout(() => document.getElementById('contribute').scrollIntoView({ behavior: 'smooth' }), 100);
-    }
-
-    async function submitSuggestion() {
-      const english = document.getElementById('suggestEnglish').value.trim();
-      const zulu = document.getElementById('suggestZulu').value.trim();
-      const definition = document.getElementById('suggestDefinition').value.trim();
-      if (!english) { showMsg('Please enter an English term', 'error'); return; }
-
-      const btn = document.getElementById('suggestBtn');
-      btn.textContent = 'Submitting...'; btn.disabled = true;
-
-      try {
-        const res = await fetch(`${API}/suggest`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ english_word: english, isizulu_word: zulu, definition })
-        });
-        if (res.ok) {
-          showMsg('Thank you! Your contribution has been submitted.', 'success');
-          ['suggestEnglish','suggestZulu','suggestDefinition'].forEach(id => document.getElementById(id).value = '');
-        } else {
-          showMsg('Submission failed. Please try again.', 'error');
-        }
-      } catch { showMsg('Connection error. Please try again.', 'error'); }
-
-      btn.textContent = 'Submit Contribution'; btn.disabled = false;
-    }
-
-    function showMsg(msg, type) {
-      const el = document.getElementById('suggestMsg');
-      el.textContent = msg;
-      el.className = `text-xs p-2 rounded ${type==='success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`;
-      el.classList.remove('hidden');
-      setTimeout(() => el.classList.add('hidden'), 3500);
-    }
-
-    // ── INIT ────────────────────────────────────────────
-    buildAlpha();
-    loadDisciplines();
+  function filterDisc(d, btn) {
+    discipline = d; letter = null; page = 1;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.alpha-btn').classList.add('active');
     loadTerms();
-  </script>
+  }
+
+  // ── ALPHABET ─────────────────────────────────────
+  function buildAlpha() {
+    document.getElementById('alphaRow').innerHTML =
+      `<button class="alpha-btn active" onclick="filterLetter(null,this)">All</button>` +
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l =>
+        `<button class="alpha-btn" onclick="filterLetter('${l}',this)">${l}</button>`
+      ).join('');
+  }
+
+  function filterLetter(l, btn) {
+    letter = l; page = 1;
+    document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    loadTerms();
+  }
+
+  // ── LOAD TERMS ───────────────────────────────────
+  async function loadTerms() {
+    const list = document.getElementById('termsList');
+    list.innerHTML = `<div style="padding:2rem;text-align:center">
+      <div class="shimmer" style="height:15px;width:55%;margin:0 auto 10px"></div>
+      <div class="shimmer" style="height:13px;width:38%;margin:0 auto"></div>
+    </div>`;
+
+    try {
+      let url = `${API}/terms?page=${page}&limit=20`;
+      if (discipline) url += `&discipline=${encodeURIComponent(discipline)}`;
+      if (letter) url += `&letter=${letter}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      totalPages = data.pages || 1;
+      document.getElementById('statTerms').textContent = data.total?.toLocaleString() || '—';
+      document.getElementById('browseCount').textContent = `${data.total?.toLocaleString()} terms · Page ${data.page} of ${data.pages}`;
+
+      if (!data.terms?.length) {
+        list.innerHTML = `<div style="padding:2.5rem;text-align:center;color:#aaa;font-size:0.9rem">No terms found</div>`;
+      } else if (mobile()) {
+        list.innerHTML = data.terms.map(t => `
+          <div class="tcm" onclick="quickSearch('${t.english_word.replace(/'/g,"\\'")}')">
+            <div class="tcm-top">
+              <span class="tcm-en">${t.english_word}</span>
+              <span class="tcm-arr">→</span>
+              <span class="tcm-zu">${t.isizulu_word}</span>
+            </div>
+            <div class="tcm-bot">
+              ${t.discipline ? `<span class="term-badge">${t.discipline}</span>` : ''}
+              ${t.definition ? `<span class="tcm-def">${t.definition}</span>` : ''}
+            </div>
+          </div>`).join('');
+      } else {
+        list.innerHTML = data.terms.map(t => `
+          <div class="term-row" onclick="quickSearch('${t.english_word.replace(/'/g,"\\'")}')">
+            <div>
+              <div class="term-en">${t.english_word}</div>
+              ${t.definition ? `<div class="term-def">${t.definition}</div>` : ''}
+            </div>
+            <div class="term-zu">${t.isizulu_word}</div>
+            <div>${t.discipline ? `<span class="term-badge">${t.discipline}</span>` : '—'}</div>
+          </div>`).join('');
+      }
+
+      const pg = document.getElementById('pagination');
+      pg.style.display = totalPages > 1 ? 'flex' : 'none';
+      document.getElementById('prevBtn').disabled = page <= 1;
+      document.getElementById('nextBtn').disabled = page >= totalPages;
+      document.getElementById('pageInfo').textContent = `Page ${page} of ${totalPages}`;
+
+    } catch {
+      list.innerHTML = `<div style="padding:2rem;text-align:center;color:#c00;font-size:0.88rem">Failed to load. Please refresh.</div>`;
+    }
+  }
+
+  function changePage(dir) {
+    const p = page + dir;
+    if (p < 1 || p > totalPages) return;
+    page = p; loadTerms();
+    document.getElementById('browse').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function quickSearch(word) {
+    inp.value = word;
+    document.getElementById('search').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(doSearch, 300);
+  }
+
+  // ── SUGGEST ──────────────────────────────────────
+  function prefill(word) {
+    document.getElementById('sEn').value = word;
+    setTimeout(() => document.getElementById('contribute').scrollIntoView({ behavior: 'smooth' }), 100);
+  }
+
+  async function submitSuggestion() {
+    const english = document.getElementById('sEn').value.trim();
+    const zulu = document.getElementById('sZu').value.trim();
+    const def = document.getElementById('sDef').value.trim();
+    if (!english) { showMsg('Please enter an English term.', false); return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Submitting…'; btn.disabled = true;
+
+    try {
+      const res = await fetch(`${API}/suggest`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ english_word: english, isizulu_word: zulu, definition: def })
+      });
+      if (res.ok) {
+        showMsg('Thank you! Contribution submitted.', true);
+        ['sEn','sZu','sDef'].forEach(id => document.getElementById(id).value = '');
+      } else {
+        showMsg('Submission failed. Try again.', false);
+      }
+    } catch { showMsg('Connection error.', false); }
+
+    btn.textContent = 'Submit Contribution'; btn.disabled = false;
+  }
+
+  function showMsg(text, ok) {
+    const el = document.getElementById('formMsg');
+    el.textContent = text;
+    el.className = `form-msg ${ok ? 'fm-ok' : 'fm-err'}`;
+    setTimeout(() => { el.className = 'form-msg'; }, 4000);
+  }
+
+  // ── INIT ─────────────────────────────────────────
+  buildAlpha();
+  loadDisciplines();
+  loadTerms();
+  window.addEventListener('resize', loadTerms);
+</script>
 </body>
 </html>
